@@ -9,8 +9,6 @@
 void *remove_block(buddy_allocator *alloc, buddy_block *bl) {
     buddy_block *left = bl->prev, *right = bl->next;
 
-    printf("\t\tRemoving %ld (%d)\n", (void*)bl - alloc->memory_start, bl->order);
-
     if (left) left->next = right;
     if (right) right->prev = left;
 
@@ -26,8 +24,6 @@ void *remove_block(buddy_allocator *alloc, buddy_block *bl) {
 // After:   NULL <-> bl (head) <-> A ...
 void insert_block(buddy_allocator *alloc, buddy_block *bl) {
     buddy_block *head = alloc->order_lists[bl->order - alloc->min_order];
-
-    printf("\t\tInserting %ld (%d)\n", (void*)bl - alloc->memory_start, bl->order);
 
     bl->prev = NULL;
     bl->next = head;
@@ -101,9 +97,6 @@ buddy_block *merge(buddy_allocator *alloc, buddy_block *bl) {
     if (bl->order == alloc->max_order) return NULL;
 
     left_buddy = (buddy_block *)((size_t)bl & ~(1 << bl->order)); // Clear bit that separates the two buddies from each other
-
-    printf("\tbl = %ld, left buddy = %ld, right buddy = %ld\n", (void*)bl - alloc->memory_start, (void*)left_buddy - alloc->memory_start,
-        (void*)get_buddy(alloc, left_buddy) - alloc->memory_start);
 
     if (left_buddy->order != get_buddy(alloc, left_buddy)->order) return NULL;
 

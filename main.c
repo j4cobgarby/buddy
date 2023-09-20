@@ -17,8 +17,8 @@ int main() {
 
     printf("Allocated %p, %p\n", s1, s2);
 
-    release(s1);
     release(s2);
-    release(s3);
+    release(s1);
     release(s4);
+    release(s3);
 }
