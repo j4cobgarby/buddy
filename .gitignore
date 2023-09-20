@@ -1,3 +1,5 @@
 .vscode
 a.out
 output.txt
+*.o
+buddy
